@@ -1,0 +1,1 @@
+{"model_temperature": 1.4687488079071045, "measure": "_proba_uncertainty", "filter_direction": "above", "threshold_val": 0.25, "threshold_method": "misclass_quantile_threshold"}

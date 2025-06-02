@@ -1,0 +1,28 @@
+
+FROM pytorch/pytorch:2.2.0-cuda12.1-cudnn8-runtime as base
+
+# Build stage for cloning the repository
+FROM base as builder
+
+WORKDIR /code
+
+RUN apt-get update && apt-get install -y libglib2.0-0 libgl1-mesa-glx && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
+
+
+ARG GITHUB_INSTALL_TOKEN
+COPY requirements.txt .
+# install dependencies
+RUN pip install git+https://${GITHUB_INSTALL_TOKEN}@github.com/tensoryze-dev/tensoryze_pipelines.git#egg=tensoryze_pipelines[ml] && \
+    pip install -r requirements.txt && \
+    rm -rf ~/.cache/pip
+
+# copy the content of the local src directory to the working directory
+COPY app.py .
+COPY testing_artifacts/ ./testing_artifacts/
+COPY inference_artifacts/ ./inference_artifacts/
+COPY .env .
+
+
+# command to run on container start
+CMD [ "python", "./app.py" ] 

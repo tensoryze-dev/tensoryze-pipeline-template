@@ -1,0 +1,285 @@
+hierarchy:
+  - regular_test.regular_test.f1_score
+  - regular_test.regular_test.recall
+  - regular_test.regular_test.precision
+  - regular_test.regular_test.brier_score
+  - regular_test.regular_test.accuracy
+  - regular_test.regular_test.auroc
+  - robustness_test.brightness.accuracy
+  - robustness_test.brightness.recall
+  - robustness_test.brightness.precision
+  - robustness_test.brightness.brier_score
+  - robustness_test.brightness.f1_score
+  - robustness_test.brightness.auroc
+  - robustness_test.brightness.performance_drop
+  - robustness_test.defocus.accuracy
+  - robustness_test.defocus.recall
+  - robustness_test.defocus.precision
+  - robustness_test.defocus.brier_score
+  - robustness_test.defocus.f1_score
+  - robustness_test.defocus.auroc
+  - robustness_test.defocus.performance_drop
+  - robustness_test.crop.accuracy
+  - robustness_test.crop.recall
+  - robustness_test.crop.precision
+  - robustness_test.crop.brier_score
+  - robustness_test.crop.f1_score
+  - robustness_test.crop.auroc
+  - robustness_test.crop.performance_drop
+  - robustness_test.occlusion.accuracy
+  - robustness_test.occlusion.recall
+  - robustness_test.occlusion.precision
+  - robustness_test.occlusion.brier_score
+  - robustness_test.occlusion.f1_score
+  - robustness_test.occlusion.auroc
+  - robustness_test.occlusion.performance_drop
+  - robustness_test.erasing.accuracy
+  - robustness_test.erasing.recall
+  - robustness_test.erasing.precision
+  - robustness_test.erasing.brier_score
+  - robustness_test.erasing.f1_score
+  - robustness_test.erasing.auroc
+  - robustness_test.erasing.performance_drop
+  - robustness_test.sensornoise.accuracy
+  - robustness_test.sensornoise.recall
+  - robustness_test.sensornoise.precision
+  - robustness_test.sensornoise.brier_score
+  - robustness_test.sensornoise.f1_score
+  - robustness_test.sensornoise.auroc
+  - robustness_test.sensornoise.performance_drop
+  - explainability_test.mask.iou
+  - bias_test.target.bias
+  - bias_test.doe_variant.bias
+  
+regular_test:
+  regular_test:
+    accuracy: 
+      value: 0.95
+      tolerance: 0.02
+      operator: '>'
+    recall: 
+      value: 0.98
+      tolerance: 0.005
+      operator: '>='
+    precision: 
+      value: 0.9
+      tolerance: 0.01
+      operator: '>='
+    brier_score: 
+      value: 0.03 
+      tolerance: 0.01
+      operator: '<='
+    f1_score:
+      value: 0.96
+      tolerance: 0.01
+      operator: ">="
+    auroc: 
+      value: 0.9
+      tolerance: 0.1
+      operator: ">="
+
+robustness_test:
+  brightness:
+    brightness_limit: 0.5 #value between 0 and 1; defines the brightness range as (-brightness_limit, brightness_limit)    
+    contrast_limit: 0.2 #like brightness. Negative brightness or contrast value: black image, positive: white image
+    accuracy: 
+      value: 0.95
+      tolerance: 0.02
+      operator: '>'
+    recall: 
+      value: 0.98
+      tolerance: 0.005
+      operator: '>='
+    precision: 
+      value: 0.9
+      tolerance: 0.01
+      operator: '>='
+    brier_score: 
+      value: 0.03 
+      tolerance: 0.01
+      operator: '<='
+    f1_score:
+      value: 0.96
+      tolerance: 0.01
+      operator: ">="
+    auroc: 
+      value: 0.9
+      tolerance: 0.1
+      operator: ">="
+    performance_drop:
+      value: -0.1 #difference between the original and the perturbed testset
+      tolerance: 0.01
+      operator: ">="
+
+  defocus:
+    radius_median: 3.0 #must be > 0; defines the median of the range of possible radius values
+    blur_median: 3.0 #must be >= 0; defines the median of the range of possible blur values
+    accuracy: 
+      value: 0.95
+      tolerance: 0.02
+      operator: '>'
+    recall: 
+      value: 0.98
+      tolerance: 0.005
+      operator: '>='
+    precision: 
+      value: 0.9
+      tolerance: 0.01
+      operator: '>='
+    brier_score: 
+      value: 0.03 
+      tolerance: 0.01
+      operator: '<='
+    f1_score:
+      value: 0.96
+      tolerance: 0.01
+      operator: ">="
+    auroc: 
+      value: 0.9
+      tolerance: 0.1
+      operator: ">="
+    performance_drop:
+      value: -0.1 #difference between the original and the perturbed testset
+      tolerance: 0.01
+      operator: ">="
+
+  crop:
+    max_shift: 0.4 #maximum displacement of the image crop in percentage of the original (centered) crop
+    accuracy: 
+      value: 0.95
+      tolerance: 0.02
+      operator: '>'
+    recall: 
+      value: 0.98
+      tolerance: 0.005
+      operator: '>='
+    precision: 
+      value: 0.9
+      tolerance: 0.01
+      operator: '>='
+    brier_score: 
+      value: 0.03 
+      tolerance: 0.01
+      operator: '<='
+    f1_score:
+      value: 0.96
+      tolerance: 0.01
+      operator: ">="
+    auroc: 
+      value: 0.9
+      tolerance: 0.1
+      operator: ">="
+    performance_drop:
+      value: -0.1 #difference between the original and the perturbed testset
+      tolerance: 0.01
+      operator: ">="
+
+  occlusion:
+    accuracy: 
+      value: 0.95
+      tolerance: 0.02
+      operator: '>'
+    recall: 
+      value: 0.98
+      tolerance: 0.005
+      operator: '>='
+    precision: 
+      value: 0.9
+      tolerance: 0.01
+      operator: '>='
+    brier_score: 
+      value: 0.03 
+      tolerance: 0.01
+      operator: '<='
+    f1_score:
+      value: 0.96
+      tolerance: 0.01
+      operator: ">="
+    auroc: 
+      value: 0.9
+      tolerance: 0.1
+      operator: ">="
+    performance_drop:
+      value: -0.1 #difference between the original and the perturbed testset
+      tolerance: 0.01
+      operator: ">="
+
+  erasing:
+    accuracy: 
+      value: 0.95
+      tolerance: 0.02
+      operator: '>'
+    recall: 
+      value: 0.98
+      tolerance: 0.005
+      operator: '>='
+    precision: 
+      value: 0.9
+      tolerance: 0.01
+      operator: '>='
+    brier_score: 
+      value: 0.03 
+      tolerance: 0.01
+      operator: '<='
+    f1_score:
+      value: 0.96
+      tolerance: 0.01
+      operator: ">="
+    auroc: 
+      value: 0.9
+      tolerance: 0.1
+      operator: ">="
+    performance_drop:
+      value: -0.1 #difference between the original and the perturbed testset
+      tolerance: 0.01
+      operator: ">="
+
+  sensornoise:
+    accuracy: 
+      value: 0.95
+      tolerance: 0.02
+      operator: '>'
+    recall: 
+      value: 0.98
+      tolerance: 0.005
+      operator: '>='
+    precision: 
+      value: 0.9
+      tolerance: 0.01
+      operator: '>='
+    brier_score: 
+      value: 0.03 
+      tolerance: 0.01
+      operator: '<='
+    f1_score:
+      value: 0.96
+      tolerance: 0.01
+      operator: ">="
+    auroc: 
+      value: 0.9
+      tolerance: 0.1
+      operator: ">="
+    performance_drop:
+      value: -0.1 #difference between the original and the perturbed testset
+      tolerance: 0.01
+      operator: ">="
+  
+explainability_test:
+  mask:
+    iou:
+      value: 0.6
+      tolerance: 0.01
+      operator: ">="
+
+bias_test:
+  target: 
+    bias:
+      value: 0.1
+      tolerance: 0.01
+      operator: "<="
+  doe_variant:
+    bias:
+      value: 0.1
+      tolerance: 0.01
+      operator: "<="
+

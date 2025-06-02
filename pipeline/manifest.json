@@ -1,0 +1,30 @@
+{
+    "name": "laser-welding-demo",                                 
+    "kind": "ml-job",                                                   
+    "docker-registry": "192.168.209.27:5000/visionline-binary-classification",        
+    "components": {
+        "ingestion": {
+            "name": "ingestion", "image": "ingestion-noprogram:latest"
+        },
+        "train": {
+            "name": "train", "image": "train-noprogram:latest"
+        },
+        "test": {
+            "name": "test", "image":"test-noprogram:latest"
+        },
+        "publish": {
+            "name": "publish", "image":"publish-noprogram:latest"
+        }
+    },
+    "pipeline": {
+        "root": ["ingestion"],
+        "ingestion": ["train"],
+        "train": ["test"],
+        "test": ["publish"],
+        "publish": ["end"]
+    },
+    "scheduler": {
+        "kind": "TimeRESTScheduler",
+        "condition": "* * *1 * *"
+    }
+}
