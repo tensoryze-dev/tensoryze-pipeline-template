@@ -72,14 +72,28 @@ register:
 #			Creates the variables for the pipeline
 versioning:
 	@echo "Checking if GitHub repo exists..."
+
+	@if [ ! -d .git ]; then \
+		echo "No Git repository found. Initializing..."; \
+		git init; \
+		git add .; \
+		git commit -m 'Initial commit'; \
+	fi
+	@if git remote | grep -q "^origin$$"; then \
+		git remote remove origin; \
+		echo "Removed existing origin."; \
+	fi
+
 	@if [ -z "${GITHUB_TOKEN}" ]; then \
 		echo "Error: GITHUB_TOKEN is not set"; \
 		exit 1; \
 	fi
+
 	@if [ -z "${GIT_USER}" ] || [ -z "${DATAPRODUCT_NAME}" ]; then \
 		echo "Error: TENSORYZE_API_HOST and DATAPRODUCT_NAME must be set"; \
 		exit 1; \
 	fi
+
 	@if ! curl -s -H "Authorization: token ${GITHUB_TOKEN}" \
 		https://api.github.com/repos/${GIT_USER}/${DATAPRODUCT_NAME} | grep -q '"full_name"'; then \
 		echo "Repository does not exist. Creating it..."; \
@@ -91,16 +105,8 @@ versioning:
 	else \
 		echo "Repository exists."; \
 	fi
-	@if [ ! -d .git ]; then \
-		echo "No Git repository found. Initializing..."; \
-		git init; \
-		git add .; \
-		git commit -m 'Initial commit'; \
-	fi
-	@if git remote | grep -q "^origin$$"; then \
-		git remote remove origin; \
-		echo "Removed existing origin."; \
-	fi
+
+
 	@git remote add origin https://github.com/${GIT_USER}/${DATAPRODUCT_NAME}.git
 	@echo "Added new origin: https://github.com/${GIT_USER}/${DATAPRODUCT_NAME}.git"
 	@git push -u origin HEAD
