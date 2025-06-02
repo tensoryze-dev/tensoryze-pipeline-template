@@ -27,3 +27,9 @@ The development of this environment was guided by the following philosophy:
 - After a sucessfull local run, register the pipeline with tensoryze core
     - ```make push_and_register```
     - ```make pipeline_execution```
+
+
+
+## Outstanding Features:
+- Add scripts like register.py and test_local.py to tensoryze_pipelines
+- VS Code Extension
