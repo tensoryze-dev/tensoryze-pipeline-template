@@ -73,42 +73,44 @@ register:
 versioning:
 	@echo "Checking if GitHub repo exists..."
 
-	@if [ ! -d .git ]; then \
-		echo "No Git repository found. Initializing..."; \
-		git init; \
-		git add .; \
-		git commit -m 'Initial commit'; \
-	fi
-	@if git remote | grep -q "^origin$$"; then \
-		git remote remove origin; \
-		echo "Removed existing origin."; \
-	fi
 
 	@if [ -z "${GITHUB_TOKEN}" ]; then \
 		echo "Error: GITHUB_TOKEN is not set"; \
 		exit 1; \
 	fi
 
-	@if [ -z "${GIT_USER}" ] || [ -z "${DATAPRODUCT_NAME}" ]; then \
-		echo "Error: TENSORYZE_API_HOST and DATAPRODUCT_NAME must be set"; \
+	@if [ -z "${GIT_USER}" ] || [ -z "${GIT_REPO_NAME}" ]; then \
+		echo "Error: TENSORYZE_API_HOST and GIT_REPO_NAME must be set"; \
 		exit 1; \
 	fi
 
+
+	@if [ ! -d .git ]; then \
+		echo "No Git repository found. Initializing..."; \
+		git init; \
+	fi
+
+	@if git remote | grep -q "^origin$$"; then \
+		git remote remove origin; \
+		echo "Removed existing origin."; \
+	fi
+
 	@if ! curl -s -H "Authorization: token ${GITHUB_TOKEN}" \
-		https://api.github.com/repos/${GIT_USER}/${DATAPRODUCT_NAME} | grep -q '"full_name"'; then \
+		https://api.github.com/repos/${GIT_USER}/${GIT_REPO_NAME} | grep -q '"full_name"'; then \
 		echo "Repository does not exist. Creating it..."; \
 		curl -s -X POST -H "Authorization: token ${GITHUB_TOKEN}" \
 			-H "Accept: application/vnd.github.v3+json" \
 			https://api.github.com/user/repos \
-			-d "{\"name\":\"${DATAPRODUCT_NAME}\"}" > /dev/null; \
+			-d "{\"name\":\"${GIT_REPO_NAME}\"}" > /dev/null; \
 		echo "Repository created."; \
 	else \
 		echo "Repository exists."; \
 	fi
 
-
-	@git remote add origin https://github.com/${GIT_USER}/${DATAPRODUCT_NAME}.git
-	@echo "Added new origin: https://github.com/${GIT_USER}/${DATAPRODUCT_NAME}.git"
+	git add .
+	git commit -m 'Initial commit'
+	@git remote add origin https://github.com/${GIT_USER}/${GIT_REPO_NAME}.git
+	@echo "Added new origin: https://github.com/${GIT_USER}/${GIT_REPO_NAME}.git"
 	@git push -u origin HEAD
 
 
