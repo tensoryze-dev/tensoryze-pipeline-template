@@ -1,27 +1,22 @@
 {
-    "name": "laser-welding-demo",                                 
-    "kind": "ml-job",                                                   
-    "docker-registry": "192.168.209.27:5000/visionline-binary-classification",        
-    "components": {
+    "name": "pcb-demo-pipeline",                                 
+    "kind": "ml-job",                                                        
+    "pipeline_steps": {
         "ingestion": {
-            "name": "ingestion", "image": "ingestion-noprogram:latest"
+            "name": "ingest_pcb_data", "image": "pcb-demo-data/ingestion:latest"
         },
         "train": {
-            "name": "train", "image": "train-noprogram:latest"
+            "name": "train_resnet", "image": "pcb-demo-data/train:latest"
         },
         "test": {
-            "name": "test", "image":"test-noprogram:latest"
-        },
-        "publish": {
-            "name": "publish", "image":"publish-noprogram:latest"
+            "name": "test_robustness", "image":"pcb-demo-data/test:latest"
         }
     },
-    "pipeline": {
+    "pipeline_dag": {
         "root": ["ingestion"],
         "ingestion": ["train"],
         "train": ["test"],
-        "test": ["publish"],
-        "publish": ["end"]
+        "test": ["end"]
     },
     "scheduler": {
         "kind": "TimeRESTScheduler",

@@ -16,10 +16,10 @@ The development of this environment was guided by the following philosophy:
 
 ## **How to develop a containerized ML pipeline:**
 - Use ```make python_env``` to setup a local python environment and install tensoryze-piplines libary. [[GitHub - tensoryze-pipeliens](/https://github.com/tensoryze-dev/tensoryze_pipelines.git)]
-- Develop and Iterate in the **frist layer**
+- Develop and Iterate in the **first layer**
     - Create the pipeline using the notebook ```pipeline-development.ipynb```.
     - (**Alternatively**, you are free to develop in another environment as long as you defer to the overall expectations.)
-    - Test the components within the Notebook (after every pipeline step (== cell) run restart the kernel to avoid memory-related issues).
+    - Test the components within the Notebook (after every pipeline step (== cell) restart the kernel to avoid memory-related errors).
     - Use the "%%" magic command to save the **app.py** and **dockerfile** to the respective subfolders.
     - After all steps are created, use the "%%" magic command to create the pipeline manifest.
 - Proceed to the **second layer** and execute the pipeline locally.
