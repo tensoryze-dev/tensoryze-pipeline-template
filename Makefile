@@ -109,7 +109,6 @@ versioning:
 
 	@git remote add origin https://github.com/${GIT_USER}/${GIT_REPO_NAME}.git
 	@echo "Added new origin: https://github.com/${GIT_USER}/${GIT_REPO_NAME}.git"
-
 	git add .
 	git commit -m 'Initial commit'
 	@git push -u origin HEAD
