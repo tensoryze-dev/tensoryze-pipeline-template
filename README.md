@@ -14,7 +14,7 @@ The development of this environment was guided by the following philosophy:
 - Keep data science code close to its execution environment, enabling quick understanding of explored domains.
 - Execute code consistently across various platforms, from Jupyter notebooks to cloud-triggered jobs.
 
-### **How to develop a containerized ML pipeline:**
+## **How to develop a containerized ML pipeline:**
 - Use ```make python_env``` to setup a local python environment and install tensoryze-piplines libary. [[GitHub - tensoryze-pipeliens](/https://github.com/tensoryze-dev/tensoryze_pipelines.git)]
 - Develop and Iterate in the **frist layer**
     - Create the pipeline using the notebook ```pipeline-development.ipynb```.
@@ -30,6 +30,6 @@ The development of this environment was guided by the following philosophy:
 
 
 
-## Outstanding Features:
+## **Outstanding Features:**
 - Add scripts like register.py and test_local.py to tensoryze_pipelines
 - VS Code Extension
