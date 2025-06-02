@@ -70,8 +70,8 @@ if __name__ == "__main__":
 
     print("ℹ️   We currently only support simple pipelines. Please test the pipeline manually if you have complex pipelines")
 
-    components = manifest["components"]
-    steps = manifest["pipeline"]
+    components = manifest["pipeline_dag"]
+    steps = manifest["pipeline_steps"]
 
     for current_step, next_steps in steps.items():
         for next_step in next_steps:
