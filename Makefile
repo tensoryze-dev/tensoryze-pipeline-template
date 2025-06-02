@@ -48,7 +48,10 @@ push_to_registry:
 		if [ -d "$$dir" ]; then \
 			component_name=$$(basename $$dir); \
 			echo "Component name: $$component_name"; \
-			docker build -t $(TENSORYZE_API_HOST):$(DOCKER_REGISTRY_PORT)/${DATAPRODUCT_NAME}/$$component_name:latest $$dir --no-cache; \
+			docker build \
+				--build-arg GITHUB_INSTALL_TOKEN=$(GITHUB_TOKEN) \
+				-t $(TENSORYZE_API_HOST):$(DOCKER_REGISTRY_PORT)/${DATAPRODUCT_NAME}/$$component_name:latest \
+				$$dir --no-cache; \
 			echo "Tagged as $(TENSORYZE_API_HOST):$(DOCKER_REGISTRY_PORT)/${DATAPRODUCT_NAME}/$$component_name:latest"; \
 			docker push $(TENSORYZE_API_HOST):$(DOCKER_REGISTRY_PORT)/${DATAPRODUCT_NAME}/$$component_name:latest; \
 		fi \
