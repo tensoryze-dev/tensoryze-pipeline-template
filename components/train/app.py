@@ -5,18 +5,18 @@ from pytorch_lightning.callbacks.early_stopping import EarlyStopping
 from pytorch_lightning.callbacks import ModelCheckpoint
 
 from tensoryze_pipelines.modeling import (
-    OpticalInspectionDataloader, OpticalInspectionDataset,  OpticalInspectionTransformation, TemperatureScaledActiveLearner,
-    ResNet18
+    OpticalInspectionDataloader, OpticalInspectionDataset,  OpticalInspectionTransformation, 
+    TemperatureScaledActiveLearner, ResNet18
 )
 from tensoryze_pipelines.utils.logging import logger
 from tensoryze_pipelines.io import (
     DataLakeInterface, LakeFSClient, MachineLearningDataLakeClient,
     write_dict_to_yaml, read_pickle, write_json, image_folder_to_dataset,
     ExperimentTrackingInterface, MLFlowExperimentTracking, 
-
 )
 
-OUT_FILES = os.environ.get('OUT_FILES', ["/tmp/run_id.yaml"])
+from tensoryze_pipelines.entities.execution import ModelArtifact
+
 N_EPOCHS = os.environ.get('N_EPOCHS', 10)
 
 log = logger
@@ -93,4 +93,9 @@ with experiment_tracker as experiment_tracker:
         experiment_tracker.log_artifact(file_name = f_name, artifact=obj)
 
 
-    write_dict_to_yaml({"id": f"{experiment_tracker.experiment_id}/{experiment_tracker.run_id}"}, OUT_FILES[0])
+    artifact = ModelArtifact(
+        artifact_name=ResNet18.__name__,
+        run_id = f"{experiment_tracker.experiment_id}/{experiment_tracker.run_id}"
+    )
+    artifact.write()
+

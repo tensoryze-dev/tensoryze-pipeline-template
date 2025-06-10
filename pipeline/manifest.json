@@ -1,25 +1,67 @@
 {
-    "name": "pcb-demo-pipeline",                                 
-    "kind": "ml-job",                                                        
-    "pipeline_steps": {
-        "ingestion": {
-            "name": "ingest_pcb_data", "image": "pcb-demo-data/ingestion:latest"
-        },
-        "train": {
-            "name": "train_resnet", "image": "pcb-demo-data/train:latest"
-        },
-        "test": {
-            "name": "test_robustness", "image":"pcb-demo-data/test:latest"
-        }
+  "uuid": "ba2492cb-6700-414a-a0a1-793857a31055",
+  "project_id": null,
+  "dataproduct_id": null,
+  "dataproduct_name": null,
+  "api_version": "1.0.0",
+  "kind": "ml-job",
+  "is_active": false,
+  "name": "pcb-demo-pipeline",
+  "pipeline_steps": {
+    "test": {
+      "id": "7f87d47d-5d5c-4aee-9290-2b43f200ebb8",
+      "created_at": "2025-06-10T13:11:06.897748+00:00",
+      "name": "test_robustness",
+      "image": "pcb-demo-data/test:latest",
+      "description": null,
+      "parameters": null
     },
-    "pipeline_dag": {
-        "root": ["ingestion"],
-        "ingestion": ["train"],
-        "train": ["test"],
-        "test": ["end"]
+    "train": {
+      "id": "2fd453e1-d8ea-4771-80a3-7032d1abc277",
+      "created_at": "2025-06-10T13:11:06.897775+00:00",
+      "name": "train_resnet",
+      "image": "pcb-demo-data/train:latest",
+      "description": null,
+      "parameters": null
     },
-    "scheduler": {
-        "kind": "TimeRESTScheduler",
-        "condition": "* * *1 * *"
+    "ingestion": {
+      "id": "6eb00f61-3889-4dd5-a526-12fd18ff7503",
+      "created_at": "2025-06-10T13:11:06.897784+00:00",
+      "name": "ingest_pcb_data",
+      "image": "pcb-demo-data/ingestion:latest",
+      "description": null,
+      "parameters": null
     }
+  },
+  "pipeline_dag": {
+    "root": [
+      "ingestion"
+    ],
+    "test": [
+      "end"
+    ],
+    "train": [
+      "test"
+    ],
+    "ingestion": [
+      "train"
+    ]
+  },
+  "environment_variables": null,
+  "scheduler": {
+    "kind": "TimeRESTScheduler",
+    "condition": "* * *1 * *"
+  },
+  "deployments": [
+    {
+      "kind": "gitops",
+      "git_url": "https://github.com/tensoryze-dev/inference-test.git",
+      "git_branch": "main",
+      "application_id": 85,
+      "service_name": "inference_test_service",
+      "overrule": false
+    }
+  ],
+  "created_at": "2025-06-02T12:04:44.641739+00:00",
+  "updated_at": "2025-06-02T12:04:44.641749+00:00"
 }
