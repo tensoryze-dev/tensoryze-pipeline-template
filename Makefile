@@ -19,7 +19,10 @@ python_setup:
 	python3 -m venv .venv
 	./.venv/bin/pip install ipykernel
 	./.venv/bin/pip install git+https://$(GITHUB_TOKEN)@github.com/tensoryze-dev/tensoryze_pipelines.git#egg=tensoryze_pipelines[ml]
-
+	@TENSORYZE_PATH=$$(./.venv/bin/python -c "import tensoryze_pipelines, os; print(os.path.dirname(tensoryze_pipelines.__file__))") && \
+	echo "" >> .env && \
+	echo "TENSORYZE_PIPELINES_PATH=$$TENSORYZE_PATH" >> .env && \
+	echo "📍 Path saved to .env as TENSORYZE_PIPELINES_PATH=$$TENSORYZE_PATH"
 #			Force the reinstallation of the tensoryze_pipelines package
 update_env:
 	./.venv/bin/pip install --no-deps --force-reinstall git+https://$(GITHUB_TOKEN)@github.com/tensoryze-dev/tensoryze_pipelines.git#egg=tensoryze_pipelines
@@ -31,7 +34,8 @@ local_run: _copy_source_files _local_run
 _local_run:
 	@echo "Build and execute the pipeline locally"
 	@echo ----------------------------------------
-	@./.venv/bin/python ./pipeline/test_local.py --TOKEN=$(GITHUB_TOKEN)
+	@./.venv/bin/python -m tensoryze_pipelines.pipeline.local.test_run --TOKEN=$(GITHUB_TOKEN) --manifest_path ./pipeline/manifest.json --components_folder ./components
+
 
 build_local:
 	@echo "Build the pipeline locally"
