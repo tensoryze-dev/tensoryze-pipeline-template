@@ -72,7 +72,7 @@ push_step_registry:
 #			Registers the pipeline with the CT Orchestrator
 register:
 	@echo "CURL the CT Orchestrator: ${TENSORYZE_API_HOST}:${TENSORYZE_API_PORT}/${TENSORYZE_API_VERSION}/orchestrator"
-	./.venv/bin/python ./pipeline/register.py --register_url ${TENSORYZE_API_HOST}:${TENSORYZE_API_PORT}/${TENSORYZE_API_VERSION}/orchestrator
+	@./.venv/bin/python -m tensoryze_pipelines.pipeline.local.register_pipeline --manifest_path ./pipeline/manifest.json --register_url ${TENSORYZE_API_HOST}:${TENSORYZE_API_PORT}/${TENSORYZE_API_VERSION}/orchestrator/pipeline_manifest 
 
 
 
